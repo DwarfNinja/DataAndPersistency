@@ -4,14 +4,14 @@ import java.time.LocalDate;
 
 public class Reiziger {
     int reiziger_id;
-    String postcode;
+    String voornaam;
     String tussenvoegsel;
     String achternaam;
     LocalDate geboortedatum;
 
-    public Reiziger(int reiziger_id, String postcode, String tussenvoegsel, String achternaam, LocalDate geboortedatum) {
+    public Reiziger(int reiziger_id, String voornaam, String tussenvoegsel, String achternaam, LocalDate geboortedatum) {
         this.reiziger_id = reiziger_id;
-        this.postcode = postcode;
+        this.voornaam = voornaam;
         this.tussenvoegsel = tussenvoegsel;
         this.achternaam = achternaam;
         this.geboortedatum = geboortedatum;
@@ -21,8 +21,8 @@ public class Reiziger {
         return reiziger_id;
     }
 
-    public String getPostcode() {
-        return postcode;
+    public String getVoornaam() {
+        return voornaam;
     }
 
     public String getTussenvoegsel() {
