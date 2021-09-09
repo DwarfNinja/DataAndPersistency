@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface ReizigerDAO {
 
-    public boolean save(Reiziger reiziger);
-    public boolean update(Reiziger reiziger);
-    public boolean delete(Reiziger reiziger);
-    public boolean findById(int id);
-    public List<Reiziger> findByGbdatum(String datum);
-    public List<Reiziger> findAll();
+    boolean save(Reiziger reiziger);
+    boolean update(Reiziger reiziger);
+    boolean delete(Reiziger reiziger);
+    Reiziger findById(int id);
+    List<Reiziger> findByGbdatum(String datum);
+    List<Reiziger> findAll();
 }

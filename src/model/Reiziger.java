@@ -36,4 +36,15 @@ public class Reiziger {
     public LocalDate getGeboortedatum() {
         return geboortedatum;
     }
+
+    @Override
+    public String toString() {
+        return "Reiziger{" +
+                "reiziger_id=" + reiziger_id +
+                ", voornaam='" + voornaam + '\'' +
+                ", tussenvoegsel='" + tussenvoegsel + '\'' +
+                ", achternaam='" + achternaam + '\'' +
+                ", geboortedatum=" + geboortedatum +
+                '}';
+    }
 }

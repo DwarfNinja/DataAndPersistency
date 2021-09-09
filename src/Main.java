@@ -11,8 +11,12 @@ public class Main {
 
     public static void main(String[] args) {
         getConnection();
-        ReizigerDAOPsql reizigerDAOPsql = new ReizigerDAOPsql(connection);
-        reizigerDAOPsql.save(new Reiziger(8,"John", "","Doe", LocalDate.now()));
+        try {
+            ReizigerDAOPsql reizigerDAOPsql = new ReizigerDAOPsql(connection);
+            testReizigerDAO(reizigerDAOPsql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void getConnection() {
@@ -51,6 +55,25 @@ public class Main {
         System.out.println(reizigers.size() + " reizigers\n");
 
         // Voeg aanvullende tests van de ontbrekende CRUD-operaties in.
+        // Update aangemaakte reiziger
+        System.out.println("[Test] ReizigerDAO.update() geeft de volgende resultaten na het updaten van de achternaam:\nVoor de update: " + rdao.findById(77));
+        Reiziger sietskeUpdate = new Reiziger(77, "S", "", "Jansen", LocalDate.parse(gbdatum));
+        rdao.update(sietskeUpdate);
+        System.out.println("Na de update: " + rdao.findById(77) + "\n");
+
+        // Vindt reiziger met gegeven ID
+        System.out.println("[Test] ReizigerDAO.findbyId() met ID 77 geeft de volgende reiziger: \n" + rdao.findById(77) + "\n");
+
+        // Vindt reizigers met gegeven geboortedatum
+        System.out.println("[Test] ReizigerDAO.findByGbdatum() met geboortedatum 1981-03-14 geeft de volgende reiziger: \n" + rdao.findByGbdatum(gbdatum) + "\n");
+
+        // Vindt delete reiziger
+        System.out.println("[Test] ReizigerDAO.delete() geeft de volgende resultaten na het deleten van reiziger met ID 77");
+        rdao.delete(sietskeUpdate);
+        for (Reiziger reiziger : rdao.findAll()) {
+            System.out.println(reiziger);
+        }
+        System.out.println();
     }
 
     private static void AssignmentP1() {
