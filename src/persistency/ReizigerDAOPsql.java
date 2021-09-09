@@ -9,9 +9,14 @@ import java.util.List;
 
 public class ReizigerDAOPsql implements ReizigerDAO {
     Connection connection;
+    AdresDAO adresDAO;
 
     public ReizigerDAOPsql(Connection connection) {
         this.connection = connection;
+    }
+
+    public void setAdresDAO(AdresDAO adresDAO) {
+        this.adresDAO = adresDAO;
     }
 
     @Override
@@ -22,11 +27,14 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                     "VALUES(?, ?, ?, ?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setInt(1, reiziger.getReiziger_id());
-            preparedStatement.setString(2, reiziger.getVoornaam());
+            preparedStatement.setString(2, reiziger.getVoorletter());
             preparedStatement.setString(3, reiziger.getTussenvoegsel());
             preparedStatement.setString(4, reiziger.getAchternaam());
             preparedStatement.setDate(5, Date.valueOf(reiziger.getGeboortedatum()));
             preparedStatement.executeUpdate();
+            if (reiziger.getAdres() != null) {
+                adresDAO.save(reiziger.getAdres());
+            }
             return true;
         } catch (SQLException throwables) {
             throwables.printStackTrace();
@@ -41,7 +49,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                     "UPDATE reiziger SET voorletters = ?, tussenvoegsel = ?, achternaam = ?, geboortedatum = ? " +
                             "WHERE reiziger_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, reiziger.getVoornaam());
+            preparedStatement.setString(1, reiziger.getVoorletter());
             preparedStatement.setString(2, reiziger.getTussenvoegsel());
             preparedStatement.setString(3, reiziger.getAchternaam());
             preparedStatement.setDate(4, Date.valueOf(reiziger.getGeboortedatum()));
@@ -134,6 +142,7 @@ public class ReizigerDAOPsql implements ReizigerDAO {
                 String reizigerAchternaam = resultSet.getString("achternaam");
                 String reizigerGeboorteDatum = resultSet.getString("geboortedatum");
                 Reiziger reiziger = new Reiziger(reizigerId, reizigerVoorletter, reizigerTussenvoegsel, reizigerAchternaam, LocalDate.parse(reizigerGeboorteDatum));
+                reiziger.setAdres(adresDAO.findByReiziger(reiziger));
                 reizigerList.add(reiziger);
             }
             return reizigerList;
